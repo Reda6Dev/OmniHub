@@ -1,0 +1,375 @@
+<UserControl x:Class="OmniHub.UI.Components.UserManualOverlay"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d">
+
+    <!-- Backdrop with Dark Blur Tint -->
+    <Grid Background="#D0050811" MouseDown="OnBackdropMouseDown">
+        <!-- Floating Manual Window (Responsive Sizing) -->
+        <Border Width="760"
+                MaxWidth="800"
+                Height="540"
+                MaxHeight="560"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Background="{StaticResource BgCardBrush}"
+                BorderBrush="{StaticResource AccentCyanBrush}"
+                BorderThickness="1"
+                CornerRadius="10"
+                Padding="0">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="40" Color="#000000" Opacity="0.85" ShadowDepth="12" />
+            </Border.Effect>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="46" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="36" />
+                </Grid.RowDefinitions>
+
+                <!-- Header Bar -->
+                <Border Grid.Row="0" Background="#0A0E1A" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1" Padding="16,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="&#xE82D;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="15" Foreground="{StaticResource AccentCyanBrush}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                            <TextBlock Text="{Binding T[Header]}" FontWeight="Bold" FontSize="13" Foreground="#FFFFFF" VerticalAlignment="Center" />
+                        </StackPanel>
+
+                        <Button Grid.Column="1" Style="{StaticResource ModernGhostButton}" Content="{Binding T[Close]}" Click="OnCloseClicked" Height="28" Padding="10,0" VerticalContentAlignment="Center" FontSize="11" />
+                    </Grid>
+                </Border>
+
+                <!-- Body Split: Sections Navigator + Details Viewer -->
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="230" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Left: Navigation Rail for Manual Topics -->
+                    <Border Grid.Column="0" Background="#0D1322" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,1,0" Padding="10,12">
+                        <StackPanel>
+                            <TextBlock Text="{Binding T[Topics]}" FontSize="10" FontWeight="Bold" Foreground="{StaticResource TextMutedBrush}" Margin="8,0,0,10" />
+
+                            <RadioButton x:Name="NavOverview" Style="{StaticResource SidebarNavButton}" IsChecked="True" Checked="OnNavChecked">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE80F;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="12" Foreground="{StaticResource AccentCyanBrush}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                    <TextBlock Text="{Binding T[NavOverview]}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </RadioButton>
+
+                            <RadioButton x:Name="NavGodot" Style="{StaticResource SidebarNavButton}" Checked="OnNavChecked">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE7FC;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="12" Foreground="{StaticResource AccentCyanBrush}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                    <TextBlock Text="{Binding T[NavGodot]}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </RadioButton>
+
+                            <RadioButton x:Name="NavDotNet" Style="{StaticResource SidebarNavButton}" Checked="OnNavChecked">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE943;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="12" Foreground="{StaticResource AccentCyanBrush}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                    <TextBlock Text="{Binding T[NavDotNet]}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </RadioButton>
+
+                            <RadioButton x:Name="NavMedia" Style="{StaticResource SidebarNavButton}" Checked="OnNavChecked">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE714;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="12" Foreground="{StaticResource AccentCyanBrush}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                    <TextBlock Text="{Binding T[NavMedia]}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </RadioButton>
+
+                            <RadioButton x:Name="NavSystem" Style="{StaticResource SidebarNavButton}" Checked="OnNavChecked">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE713;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="12" Foreground="{StaticResource AccentCyanBrush}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                    <TextBlock Text="{Binding T[NavSystem]}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </RadioButton>
+
+                            <RadioButton x:Name="NavCustom" Style="{StaticResource SidebarNavButton}" Checked="OnNavChecked">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE90F;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="12" Foreground="{StaticResource AccentCyanBrush}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                    <TextBlock Text="{Binding T[NavCustom]}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </RadioButton>
+
+                            <RadioButton x:Name="NavOnline" Style="{StaticResource SidebarNavButton}" Checked="OnNavChecked">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE774;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="12" Foreground="{StaticResource AccentCyanBrush}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                    <TextBlock Text="{Binding T[NavOnline]}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </RadioButton>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Right: Content Display Area -->
+                    <ScrollViewer x:Name="ContentScrollViewer" Grid.Column="1" Padding="20,16" VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            
+                            <!-- Topic 1: Overview, Shortcuts, Wings & Persistence -->
+                            <StackPanel x:Name="SectionOverview" Visibility="Visible">
+                                <TextBlock Text="{Binding T[OverviewTitle]}" FontSize="16" FontWeight="Bold" Foreground="{StaticResource AccentCyanBrush}" Margin="0,0,0,8" />
+                                <TextBlock Text="{Binding T[OverviewIntro]}" TextWrapping="Wrap" FontSize="12" Foreground="#FFFFFF" LineHeight="19" Margin="0,0,0,14" />
+
+                                <Border Background="#111B2E" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding T[ShortcutsTitle]}" FontWeight="Bold" FontSize="12" Foreground="{StaticResource AccentAmberBrush}" Margin="0,0,0,8" />
+                                        <TextBlock Text="{Binding T[Shortcut1]}" FontSize="12" Foreground="#E2E8F0" Margin="0,3" />
+                                        <TextBlock Text="{Binding T[Shortcut2]}" FontSize="12" Foreground="#E2E8F0" Margin="0,3" />
+                                        <TextBlock Text="{Binding T[Shortcut3]}" FontSize="12" Foreground="#E2E8F0" Margin="0,3" />
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Background="#111B2E" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding T[WingsPersistenceTitle]}" FontWeight="Bold" FontSize="13" Foreground="#FFFFFF" Margin="0,0,0,6" />
+                                        <TextBlock Text="{Binding T[WingsPersistence1]}" TextWrapping="Wrap" FontSize="12" Foreground="#E2E8F0" LineHeight="18" Margin="0,0,0,4" />
+                                        <TextBlock Text="{Binding T[WingsPersistence2]}" TextWrapping="Wrap" FontSize="12" Foreground="#E2E8F0" LineHeight="18" />
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Background="#111B2E" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="14">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding T[TerminalTitle]}" FontWeight="Bold" FontSize="13" Foreground="#FFFFFF" Margin="0,0,0,6" />
+                                        <TextBlock Text="{Binding T[TerminalBody]}" TextWrapping="Wrap" FontSize="12" Foreground="#E2E8F0" LineHeight="18" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+
+                            <!-- Topic 2: Godot Engine Hub -->
+                            <StackPanel x:Name="SectionGodot" Visibility="Collapsed">
+                                <TextBlock Text="{Binding T[GodotTitle]}" FontSize="16" FontWeight="Bold" Foreground="{StaticResource AccentCyanBrush}" Margin="0,0,0,8" />
+                                <TextBlock Text="{Binding T[GodotIntro]}" TextWrapping="Wrap" FontSize="12" Foreground="#E2E8F0" Margin="0,0,0,14" />
+
+                                <!-- Card 1 -->
+                                <Border Background="#111B2E" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding T[Godot1Title]}" FontWeight="Bold" FontSize="13" Foreground="#FFFFFF" Margin="0,0,0,4" />
+                                        <TextBlock Text="{Binding T[Godot1a]}" FontSize="12" Foreground="#E2E8F0" Margin="0,2" />
+                                        <TextBlock Text="{Binding T[Godot1b]}" FontSize="12" Foreground="#E2E8F0" Margin="0,2" />
+                                        <TextBlock Text="{Binding T[Godot1c]}" FontSize="11" Foreground="{StaticResource AccentAmberBrush}" Margin="0,4,0,0" />
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Card 2 -->
+                                <Border Background="#111B2E" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding T[Godot2Title]}" FontWeight="Bold" FontSize="13" Foreground="#FFFFFF" Margin="0,0,0,4" />
+                                        <TextBlock Text="{Binding T[Godot2a]}" FontSize="12" Foreground="#E2E8F0" Margin="0,2" />
+                                        <TextBlock Text="{Binding T[Godot2b]}" FontSize="12" Foreground="#E2E8F0" Margin="0,2" />
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Card 3 -->
+                                <Border Background="#111B2E" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="14">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding T[Godot3Title]}" FontWeight="Bold" FontSize="13" Foreground="#FFFFFF" Margin="0,0,0,4" />
+                                        <TextBlock Text="{Binding T[Godot3a]}" FontSize="12" Foreground="#E2E8F0" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+
+                            <!-- Topic 3: .NET & Git Hub -->
+                            <StackPanel x:Name="SectionDotNet" Visibility="Collapsed">
+                                <TextBlock Text="{Binding T[DotNetTitle]}" FontSize="16" FontWeight="Bold" Foreground="{StaticResource AccentCyanBrush}" Margin="0,0,0,8" />
+                                
+                                <Border Background="#111B2E" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding T[DotNet1Title]}" FontWeight="Bold" FontSize="13" Foreground="#FFFFFF" Margin="0,0,0,4" />
+                                        <TextBlock Text="{Binding T[DotNet1a]}" FontSize="12" Foreground="#E2E8F0" Margin="0,2" />
+                                        <TextBlock Text="{Binding T[DotNet1b]}" FontSize="12" Foreground="#E2E8F0" Margin="0,2" />
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Background="#111B2E" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding T[DotNet2Title]}" FontWeight="Bold" FontSize="13" Foreground="#FFFFFF" Margin="0,0,0,4" />
+                                        <TextBlock Text="{Binding T[DotNet2a]}" FontSize="12" Foreground="#E2E8F0" Margin="0,2" />
+                                        <TextBlock Text="{Binding T[DotNet2b]}" FontSize="12" Foreground="#E2E8F0" Margin="0,2" />
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Background="#111B2E" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="14">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding T[DotNet3Title]}" FontWeight="Bold" FontSize="13" Foreground="#FFFFFF" Margin="0,0,0,4" />
+                                        <TextBlock Text="{Binding T[DotNet3a]}" FontSize="12" Foreground="#E2E8F0" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+
+                            <!-- Topic 4: Media Pipeline -->
+                            <StackPanel x:Name="SectionMedia" Visibility="Collapsed">
+                                <TextBlock Text="{Binding T[MediaTitle]}" FontSize="16" FontWeight="Bold" Foreground="{StaticResource AccentCyanBrush}" Margin="0,0,0,8" />
+                                
+                                <Border Background="#111B2E" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding T[Media1Title]}" FontWeight="Bold" FontSize="13" Foreground="#FFFFFF" Margin="0,0,0,4" />
+                                        <TextBlock Text="{Binding T[Media1a]}" FontSize="12" Foreground="#E2E8F0" Margin="0,2" />
+                                        <TextBlock Text="{Binding T[Media1b]}" FontSize="12" Foreground="#E2E8F0" Margin="0,2" />
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Background="#111B2E" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="14">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding T[Media2Title]}" FontWeight="Bold" FontSize="13" Foreground="#FFFFFF" Margin="0,0,0,4" />
+                                        <TextBlock Text="{Binding T[Media2a]}" FontSize="12" Foreground="#E2E8F0" Margin="0,2" />
+                                        <TextBlock Text="{Binding T[Media2b]}" FontSize="12" Foreground="#E2E8F0" Margin="0,2" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+
+                            <!-- Topic 5: System & Utilities -->
+                            <StackPanel x:Name="SectionSystem" Visibility="Collapsed">
+                                <TextBlock Text="{Binding T[SystemTitle]}" FontSize="16" FontWeight="Bold" Foreground="{StaticResource AccentCyanBrush}" Margin="0,0,0,8" />
+                                
+                                <!-- Card 1: Unblock DLLs -->
+                                <Border Background="#111B2E" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding T[System1Title]}" FontWeight="Bold" FontSize="13" Foreground="#FFFFFF" Margin="0,0,0,4" />
+                                        <TextBlock Text="{Binding T[System1a]}" FontSize="12" Foreground="#E2E8F0" Margin="0,2" />
+                                        <TextBlock Text="{Binding T[System1b]}" FontSize="12" Foreground="#E2E8F0" Margin="0,2" />
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Card 2: Hung Process Killer with scanner & presets -->
+                                <Border Background="#111B2E" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding T[System2Title]}" FontWeight="Bold" FontSize="13" Foreground="#FFFFFF" Margin="0,0,0,6" />
+                                        <TextBlock Text="{Binding T[System2a]}" FontSize="12" Foreground="#E2E8F0" Margin="0,2" />
+                                        <TextBlock Text="{Binding T[System2b]}" FontSize="12" Foreground="#E2E8F0" Margin="0,2" />
+                                        <TextBlock Text="{Binding T[System2c]}" FontSize="12" Foreground="#E2E8F0" Margin="0,2" />
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Card 3: Crash Dump Cleaner -->
+                                <Border Background="#111B2E" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="14">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding T[System3Title]}" FontWeight="Bold" FontSize="13" Foreground="#FFFFFF" Margin="0,0,0,4" />
+                                        <TextBlock Text="{Binding T[System3a]}" FontSize="12" Foreground="#E2E8F0" Margin="0,2" />
+                                        <TextBlock Text="{Binding T[System3b]}" FontSize="12" Foreground="#E2E8F0" Margin="0,2" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+
+                            <!-- Topic 6: Custom Tools -->
+                            <StackPanel x:Name="SectionCustom" Visibility="Collapsed">
+                                <TextBlock Text="{Binding T[CustomTitle]}" FontSize="16" FontWeight="Bold" Foreground="{StaticResource AccentCyanBrush}" Margin="0,0,0,8" />
+                                <TextBlock Text="{Binding T[CustomIntro]}" TextWrapping="Wrap" FontSize="12" Foreground="#E2E8F0" Margin="0,0,0,14" />
+
+                                <Border Background="#111B2E" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding T[CustomFilesTitle]}" FontWeight="Bold" FontSize="13" Foreground="#FFFFFF" Margin="0,0,0,5" />
+                                        <TextBlock Text="{Binding T[CustomFilesBody]}" TextWrapping="Wrap" FontSize="12" Foreground="#E2E8F0" />
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Background="#111B2E" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding T[CustomVariablesTitle]}" FontWeight="Bold" FontSize="13" Foreground="#FFFFFF" Margin="0,0,0,5" />
+                                        <TextBlock Text="{Binding T[CustomVariablesBody]}" TextWrapping="Wrap" FontSize="12" Foreground="#E2E8F0" />
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Background="#111B2E" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding T[CustomManagementTitle]}" FontWeight="Bold" FontSize="13" Foreground="#FFFFFF" Margin="0,0,0,5" />
+                                        <TextBlock Text="{Binding T[CustomManagementBody]}" TextWrapping="Wrap" FontSize="12" Foreground="#E2E8F0" />
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Background="#111B2E" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding T[CustomBrowseTitle]}" FontWeight="Bold" FontSize="13" Foreground="#FFFFFF" Margin="0,0,0,5" />
+                                        <TextBlock Text="{Binding T[CustomBrowseBody]}" TextWrapping="Wrap" FontSize="12" Foreground="#E2E8F0" />
+                                    </StackPanel>
+                                </Border>
+
+                                <TextBlock Text="{Binding T[CustomExampleTitle]}" FontWeight="Bold" FontSize="13" Foreground="{StaticResource AccentAmberBrush}" Margin="0,0,0,6" />
+                                <Border Background="#050811" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="14">
+                                    <TextBlock FontFamily="Consolas" FontSize="11" Foreground="#38BDF8">
+                                        [<LineBreak/>
+                                        &#160;&#160;{<LineBreak/>
+                                        &#160;&#160;&#160;&#160;"id": "my.tool.run",<LineBreak/>
+                                        &#160;&#160;&#160;&#160;"title": "My Custom Tool",<LineBreak/>
+                                        &#160;&#160;&#160;&#160;"titleAr": "أداتي المخصصة",<LineBreak/>
+                                        &#160;&#160;&#160;&#160;"category": "My Tools",<LineBreak/>
+                                        &#160;&#160;&#160;&#160;"categoryEn": "My Tools",<LineBreak/>
+                                        &#160;&#160;&#160;&#160;"categoryAr": "أدواتي",<LineBreak/>
+                                        &#160;&#160;&#160;&#160;"categoryIcon": "🧩",<LineBreak/>
+                                        &#160;&#160;&#160;&#160;"categoryDescriptionEn": "My custom automation tools",<LineBreak/>
+                                        &#160;&#160;&#160;&#160;"categoryDescriptionAr": "أدوات الأتمتة المخصصة",<LineBreak/>
+                                        &#160;&#160;&#160;&#160;"executionType": "ExternalProcess",<LineBreak/>
+                                        &#160;&#160;&#160;&#160;"executable": "python",<LineBreak/>
+                                        &#160;&#160;&#160;&#160;"arguments": "main.py \"${InputFile}\" \"${TargetText}\"",<LineBreak/>
+                                        &#160;&#160;&#160;&#160;"parameters": [<LineBreak/>
+                                        &#160;&#160;&#160;&#160;&#160;&#160;{ "id": "InputFile", "label": "Select File", "type": "FilePath", "isRequired": true },<LineBreak/>
+                                        &#160;&#160;&#160;&#160;&#160;&#160;{ "id": "TargetFolder", "label": "Select Folder", "type": "DirectoryPath", "isRequired": true },<LineBreak/>
+                                        &#160;&#160;&#160;&#160;&#160;&#160;{ "id": "TargetText", "label": "Text", "type": "Text", "isRequired": true }<LineBreak/>
+                                        &#160;&#160;&#160;&#160;]<LineBreak/>
+                                        &#160;&#160;}<LineBreak/>
+                                        ]
+                                    </TextBlock>
+                                </Border>
+                            </StackPanel>
+
+                            <!-- Topic 7: Online Tools Store -->
+                            <StackPanel x:Name="SectionOnline" Visibility="Collapsed">
+                                <TextBlock Text="{Binding T[OnlineTitle]}" FontSize="16" FontWeight="Bold" Foreground="{StaticResource AccentCyanBrush}" Margin="0,0,0,8" />
+                                <TextBlock Text="{Binding T[OnlineIntro]}" TextWrapping="Wrap" FontSize="12" Foreground="#E2E8F0" Margin="0,0,0,14" />
+
+                                <Border Background="#111B2E" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding T[OnlineCatalogTitle]}" FontWeight="Bold" FontSize="13" Foreground="#FFFFFF" Margin="0,0,0,5" />
+                                        <TextBlock Text="{Binding T[OnlineCatalogBody]}" TextWrapping="Wrap" FontSize="12" Foreground="#E2E8F0" />
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Background="#111B2E" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding T[OnlineInstallTitle]}" FontWeight="Bold" FontSize="13" Foreground="#FFFFFF" Margin="0,0,0,5" />
+                                        <TextBlock Text="{Binding T[OnlineInstallBody]}" TextWrapping="Wrap" FontSize="12" Foreground="#E2E8F0" />
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Background="#111B2E" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding T[OnlineSecurityTitle]}" FontWeight="Bold" FontSize="13" Foreground="{StaticResource AccentAmberBrush}" Margin="0,0,0,5" />
+                                        <TextBlock Text="{Binding T[OnlineSecurityBody]}" TextWrapping="Wrap" FontSize="12" Foreground="#E2E8F0" />
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Background="#111B2E" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding T[OnlineUpdateTitle]}" FontWeight="Bold" FontSize="13" Foreground="#FFFFFF" Margin="0,0,0,5" />
+                                        <TextBlock Text="{Binding T[OnlineUpdateBody]}" TextWrapping="Wrap" FontSize="12" Foreground="#E2E8F0" />
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Background="#111B2E" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="14">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding T[OnlineTroubleshootTitle]}" FontWeight="Bold" FontSize="13" Foreground="#FFFFFF" Margin="0,0,0,5" />
+                                        <TextBlock Text="{Binding T[OnlineTroubleshootBody]}" TextWrapping="Wrap" FontSize="12" Foreground="#E2E8F0" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+
+                <!-- Footer Hint -->
+                <Border Grid.Row="2" Background="#0A0E1A" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0" Padding="16,0">
+                    <TextBlock Text="{Binding T[Footer]}" FontSize="11" Foreground="{StaticResource TextMutedBrush}" VerticalAlignment="Center" />
+                </Border>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

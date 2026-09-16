@@ -1,0 +1,107 @@
+[
+  {
+    "id": "godot.headless.export",
+    "title": "Godot Headless Export",
+    "titleAr": "تصدير مشروع جودو (Headless)",
+    "description": "Export Godot project silently using headless CLI to Windows Desktop or other presets.",
+    "descriptionAr": "تصدير لعبة جودو تلقائياً في الخلفية بدون واجهة إلى Windows Desktop أو إعدادات أخرى.",
+    "executionType": "ExternalProcess",    "category": "Godot",
+
+    "executable": "${GodotExe}",
+    "arguments": "--headless --path \"${ProjectPath}\" --export-release \"${ExportPreset}\" \"${OutputFile}\"",
+    "workingDirectory": "${ProjectPath}",
+    "iconKey": "Rocket",
+    "guide": {
+      "whatItDoesAr": "يقوم بتصدير اللعبة تلقائياً في الخلفية (Headless) دون الحاجة لفتح محرر جودو، وينتج ملف الـ exe مباشرة في مجلد البناء.",
+      "whatItDoesEn": "Builds and exports your Godot project silently in headless mode using CLI without launching the full editor GUI.",
+      "whenToUseAr": "عند الرغبة في بناء حزمة جديدة لتجربتها، أو إرسال نسخة للمختبرين، أو في خطوط الأتمتة (CI/CD) لتوفير الوقت.",
+      "whenToUseEn": "When releasing new game builds, packaging playtests, or running automated export pipelines without manual clicks.",
+      "exampleAr": "ProjectPath: D:\\MyGodotGame | ExportPreset: Windows Desktop | OutputFile: D:\\MyGodotGame\\build\\game.exe",
+      "exampleEn": "ProjectPath: D:\\MyGodotGame | ExportPreset: Windows Desktop | OutputFile: D:\\MyGodotGame\\build\\game.exe"
+    },
+    "parameters": [
+      {
+        "id": "ProjectPath",
+        "label": "Project Directory",
+        "description": "Folder containing project.godot",
+        "type": "DirectoryPath",
+        "isRequired": true
+      },
+      {
+        "id": "ExportPreset",
+        "label": "Export Preset Name",
+        "description": "Exact preset name defined in export_presets.cfg (e.g. Windows Desktop)",
+        "type": "Text",
+        "defaultValue": "Windows Desktop",
+        "isRequired": true
+      },
+      {
+        "id": "OutputFile",
+        "label": "Output Binary Path",
+        "description": "Target executable path (.exe)",
+        "type": "FilePath",
+        "filter": "Executable Files (*.exe)|*.exe|All Files (*.*)|*.*",
+        "defaultValue": "${ProjectPath}\\build\\game.exe",
+        "isRequired": true
+      }
+    ]
+  },
+  {
+    "id": "godot.cache.nuker",
+    "title": "Godot Deep Cache Nuker",
+    "titleAr": "تنظيف كاش جودو وإصلاح التلف",
+    "description": "Nukes the .godot/ cache folder and stale lock files safely to eliminate build corruption.",
+    "descriptionAr": "حذف مجلد كاش .godot وملفات القفل المؤقتة العالقة لحل مشاكل البناء والاستيراد.",
+    "category": "Godot",
+    "executionType": "InternalTool",
+    "internalToolHandlerId": "godot.cache.nuker",
+    "iconKey": "Trash",
+    "guide": {
+      "whatItDoesAr": "يحذف مجلد .godot الداخلي المؤقت وأقفال الملفات العالقة (.lock) مع حساب الحجم المحرر بدقة.",
+      "whatItDoesEn": "Safely nukes the internal .godot cache directory and any lingering .lock files, reporting freed disk space.",
+      "whenToUseAr": "عند ظهور أخطاء استيراد غريبة (Import Glitches)، أو تلف كاش الموارد، أو تكرار كراش المحرك عند الفتح.",
+      "whenToUseEn": "When assets fail to reimport properly, shader caches get corrupted, or Godot behaves unstably on project launch.",
+      "exampleAr": "ProjectPath: D:\\Games\\CyberRacer (يقوم بحذف D:\\Games\\CyberRacer\\.godot)",
+      "exampleEn": "ProjectPath: D:\\Games\\CyberRacer (Deletes D:\\Games\\CyberRacer\\.godot safely)"
+    },
+    "parameters": [
+      {
+        "id": "ProjectPath",
+        "label": "Project Directory",
+        "description": "Root folder containing .godot directory",
+        "type": "DirectoryPath",
+        "isRequired": true
+      }
+    ]
+  },
+  {
+    "id": "godot.gdscript.check",
+    "title": "GDScript Syntax & Dependency Checker",
+    "titleAr": "فاحص صحة سكربتات GDScript",
+    "description": "Run Godot CLI in headless mode to check script syntax and load validity without starting display server.",
+    "descriptionAr": "فحص سكربتات GDScript للتأكد من خلوها من الأخطاء اللغوية والمراجع المفقودة.",
+    "category": "Godot",
+    "executionType": "ExternalProcess",
+    "executable": "${GodotExe}",
+    "arguments": "--headless --path \"${ProjectPath}\" --quit",
+    "workingDirectory": "${ProjectPath}",
+    "iconKey": "CheckCircle",
+    "guide": {
+      "whatItDoesAr": "يفحص جميع السكربتات ومطابقة الموارد عبر تشغيل Godot في وضع الفحص الصامت، ويطبع أي أخطاء برمجية في موجه الأوامر.",
+      "whatItDoesEn": "Loads the project headlessly to validate script parsing, class references, and resource dependencies without opening a game window.",
+      "whenToUseAr": "قبل إجراء Git Commit أو قبل تصدير اللعبة للتأكد من خلو المشروع من أخطاء في السكربتات.",
+      "whenToUseEn": "Before committing changes or building exports to catch compilation and syntax errors early.",
+      "exampleAr": "ProjectPath: D:\\Games\\CyberRacer",
+      "exampleEn": "ProjectPath: D:\\Games\\CyberRacer"
+    },
+    "parameters": [
+      {
+        "id": "ProjectPath",
+        "label": "Project Directory",
+        "description": "Godot project path to validate",
+        "type": "DirectoryPath",
+        "isRequired": true
+      }
+    ]
+  }
+]

@@ -1,0 +1,98 @@
+<UserControl x:Class="OmniHub.UI.Components.DynamicParameterControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:OmniHub.UI.ViewModels"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=vm:ParameterViewModel}"
+             Margin="0,0,0,10">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </UserControl.Resources>
+
+    <StackPanel>
+        <!-- Label and description -->
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+            <TextBlock Text="{Binding DisplayLabel}" Foreground="{StaticResource TextPrimaryBrush}" FontWeight="SemiBold" FontSize="12" />
+            <TextBlock Text=" *" Foreground="{StaticResource AccentRedBrush}" Visibility="{Binding IsRequired, Converter={StaticResource BoolToVis}}" />
+        </StackPanel>
+        
+        <TextBlock Text="{Binding DisplayDescription}" Foreground="{StaticResource TextMutedBrush}" FontSize="11" TextWrapping="Wrap" Margin="0,0,0,6" Visibility="{Binding DisplayDescription.Length, Converter={StaticResource BoolToVis}}" />
+
+        <!-- Input Type: Standard Text / Number -->
+        <TextBox Style="{StaticResource ModernTextBox}" 
+                 Height="34"
+                 VerticalContentAlignment="Center"
+                 Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" 
+                 Visibility="{Binding IsStandardText, Converter={StaticResource BoolToVis}}" />
+
+        <!-- Input Type: Smart Process Picker for system.hung.killer -->
+        <StackPanel Visibility="{Binding IsProcessPicker, Converter={StaticResource BoolToVis}}">
+            <Grid Margin="0,0,0,6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" 
+                         Height="34" 
+                         VerticalContentAlignment="Center" 
+                         Style="{StaticResource ModernTextBox}" 
+                         Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" 
+                         Margin="0,0,6,0" />
+                <Button Grid.Column="1" 
+                        Height="34" 
+                        Padding="12,0" 
+                        VerticalContentAlignment="Center" 
+                        Style="{StaticResource ModernGhostButton}" 
+                        Content="{Binding RefreshProcessesText}" 
+                        Command="{Binding RefreshActiveProcessesCommand}" 
+                        ToolTip="فحص وجلب قائمة بكافة العمليات التي تملك نافذة حالياً" />
+            </Grid>
+            <ComboBox Style="{StaticResource ModernComboBox}"
+                      Height="32"
+                      VerticalContentAlignment="Center"
+                      ItemsSource="{Binding ProcessPresets}"
+                      SelectedItem="{Binding SelectedProcessPreset, Mode=TwoWay}"
+                      ToolTip="{Binding ProcessPresetsLabel}" />
+        </StackPanel>
+
+        <!-- Input Type: File or Folder with Browse Button -->
+        <Grid Visibility="{Binding IsFilePath, Converter={StaticResource BoolToVis}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" Height="34" VerticalContentAlignment="Center" Style="{StaticResource ModernTextBox}" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,6,0" />
+            <Button Grid.Column="1" Height="34" Padding="14,0" VerticalContentAlignment="Center" Style="{StaticResource ModernGhostButton}" Content="{Binding BrowseFileText}" Command="{Binding BrowseCommand}" />
+            <Button Grid.Column="1" Height="34" Padding="14,0" VerticalContentAlignment="Center" Style="{StaticResource ModernGhostButton}" Content="{Binding BrowseFileText}" Click="BrowseFile_Click" />
+        </Grid>
+
+        <Grid Visibility="{Binding IsDirectoryPath, Converter={StaticResource BoolToVis}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" Height="34" VerticalContentAlignment="Center" Style="{StaticResource ModernTextBox}" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,6,0" />
+            <Button Grid.Column="1" Height="34" Padding="14,0" VerticalContentAlignment="Center" Style="{StaticResource ModernGhostButton}" Content="{Binding BrowseFolderText}" Command="{Binding BrowseCommand}" />
+        </Grid>
+
+        <!-- Input Type: Dropdown -->
+        <ComboBox Style="{StaticResource ModernComboBox}"
+                  Height="34"
+                  VerticalContentAlignment="Center"
+                  ItemsSource="{Binding Options}"
+                  SelectedItem="{Binding Value, Mode=TwoWay}"
+                  Visibility="{Binding IsDropdown, Converter={StaticResource BoolToVis}}" />
+
+        <!-- Input Type: Checkbox -->
+        <CheckBox Content="{Binding DisplayLabel}"
+                  IsChecked="{Binding Value, Mode=TwoWay}"
+                  Foreground="{StaticResource TextPrimaryBrush}"
+                  FontSize="12"
+                  Margin="0,4,0,0"
+                  Visibility="{Binding IsCheckbox, Converter={StaticResource BoolToVis}}" />
+    </StackPanel>
+</UserControl>
+

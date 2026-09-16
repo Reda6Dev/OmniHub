@@ -1,0 +1,14 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- Online Tools Localization Keys -->
+    <sys:String x:Key="DetailsButton">Details ℹ</sys:String>
+    <sys:String x:Key="ToolFullDescriptionLabel">Full Description:</sys:String>
+    <sys:String x:Key="CategoryLabel">Category:</sys:String>
+    <sys:String x:Key="VersionLabel">Version:</sys:String>
+    <sys:String x:Key="PublisherLabel">Publisher:</sys:String>
+    <sys:String x:Key="SecurityStatusLabel">Security Status:</sys:String>
+
+</ResourceDictionary>
+

@@ -1,0 +1,192 @@
+[
+  {
+    "id": "dotnet.singlefile.publish",
+    "title": "Single-File Publisher",
+    "titleAr": "حزم المشروع في ملف تنفيذي مستقل (.exe)",
+    "description": "Compiles and publishes a self-contained, single-file compressed executable ready for distribution.",
+    "descriptionAr": "تجميع ونشر البرنامج كملف .exe مستقل ذاتياً ومضغوط بالكامل بدون الحاجة لتثبيت .NET مسبقاً.",
+    "category": "DotNet",
+    "executionType": "ExternalProcess",
+    "executable": "dotnet",
+    "arguments": "publish \"${ProjectPath}\" -c ${Configuration} -r ${Runtime} --self-contained ${SelfContained} -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o \"${OutputDir}\"",
+    "workingDirectory": "${ProjectPath}",
+    "iconKey": "Package",
+    "guide": {
+      "whatItDoesAr": "يبني مشروع دوت نت ويجمعه في ملف .exe واحد مستقل ذاتياً، متضمناً جميع مكتبات التشغيل والـ DLLs بدون الحاجة لتثبيت .NET عند المستخدم.",
+      "whatItDoesEn": "Compiles and bundles the .NET project into a single self-contained executable with all native dependencies packaged.",
+      "whenToUseAr": "عند الرغبة في توزيع برنامجك للمستخدمين النهائيين بدون تعقيد، بحيث يشتغل البرنامج مباشرة بنقرة واحدة.",
+      "whenToUseEn": "When delivering standalone desktop tools to end users without requiring them to install the .NET runtime manually.",
+      "exampleAr": "ProjectPath: E:\\MyApp\\MyApp.csproj | Runtime: win-x64 | OutputDir: E:\\MyApp\\publish",
+      "exampleEn": "ProjectPath: E:\\MyApp\\MyApp.csproj | Runtime: win-x64 | OutputDir: E:\\MyApp\\publish"
+    },
+    "parameters": [
+      {
+        "id": "ProjectPath",
+        "label": "Project / Solution Path",
+        "description": "Path to .csproj or solution folder",
+        "type": "FilePath",
+        "filter": "C# Projects (*.csproj;*.sln)|*.csproj;*.sln|All Files (*.*)|*.*",
+        "isRequired": true
+      },
+      {
+        "id": "Configuration",
+        "label": "Build Configuration",
+        "type": "Dropdown",
+        "defaultValue": "Release",
+        "options": ["Release", "Debug"],
+        "isRequired": true
+      },
+      {
+        "id": "Runtime",
+        "label": "Target Runtime Identifier (RID)",
+        "type": "Dropdown",
+        "defaultValue": "win-x64",
+        "options": ["win-x64", "win-x86", "win-arm64", "linux-x64", "osx-x64"],
+        "isRequired": true
+      },
+      {
+        "id": "SelfContained",
+        "label": "Self-Contained (Bundle .NET Runtime)",
+        "type": "Dropdown",
+        "defaultValue": "true",
+        "options": ["true", "false"],
+        "isRequired": true
+      },
+      {
+        "id": "OutputDir",
+        "label": "Publish Output Directory",
+        "type": "DirectoryPath",
+        "defaultValue": "${ProjectPath}\\publish",
+        "isRequired": true
+      }
+    ]
+  },
+  {
+    "id": "dotnet.clean.binobj",
+    "title": "Clean Bin & Obj Folders (Disk Saver)",
+    "titleAr": "تنظيف مخلفات البناء وتوفير المساحة",
+    "description": "Recursively scans a root directory, removes all bin and obj build artifacts, and calculates freed space.",
+    "descriptionAr": "البحث الشجري وحذف كافة مجلدات bin و obj لتوفير مساحة القرص وحل أخطاء التجميع.",
+    "category": "DotNet",
+    "executionType": "InternalTool",
+    "internalToolHandlerId": "dotnet.clean.binobj",
+    "iconKey": "Trash",
+    "guide": {
+      "whatItDoesAr": "يبحث بشكل شجري عميق في مجلد مشاريعك ويحذف كل مجلدات bin و obj الناتجة عن عمليات البناء السابقة، ويحسب المساحة المحررة بالجيجابايت.",
+      "whatItDoesEn": "Recursively finds and wipes all temporary bin and obj build directories across projects, reclaiming gigabytes of disk space.",
+      "whenToUseAr": "لتوفير مساحة كبيرة على القرص، أو قبل رفع المشروع على السيرفر أو ضغطه في أرشيف، أو لحل أخطاء البناء المتضاربة.",
+      "whenToUseEn": "To free up substantial drive space, clean project folders before zipping/archiving, or resolve sticky MSBuild caching bugs.",
+      "exampleAr": "RootPath: D:\\MyProjects (يقوم بتنظيف كافة مشاريع .NET داخله دفعة واحدة)",
+      "exampleEn": "RootPath: D:\\MyProjects (Cleans all sub-projects in one click)"
+    },
+    "parameters": [
+      {
+        "id": "RootPath",
+        "label": "Root Solution / Repos Directory",
+        "description": "Directory to scan recursively for bin and obj folders",
+        "type": "DirectoryPath",
+        "isRequired": true
+      }
+    ]
+  },
+  {
+    "id": "git.quick.status",
+    "title": "Git Status & Branch Overview",
+    "titleAr": "استعراض حالة وتفرعات Git",
+    "description": "Quickly inspect working tree status, staged files, and untracked modifications.",
+    "descriptionAr": "معاينة سريعة لحالة ملفات المستودع والتعديلات الجارية وتفرعات Git.",
+    "category": "DotNet",
+    "executionType": "ExternalProcess",
+    "executable": "git",
+    "arguments": "status -s",
+    "workingDirectory": "${RepoPath}",
+    "iconKey": "GitBranch",
+    "guide": {
+      "whatItDoesAr": "يعرض حالة مستودع Git والملفات المعدلة وغير المتتبعة والمجهزة للـ Commit بشكل ملخص وسريع.",
+      "whatItDoesEn": "Displays a concise status of modified, staged, and untracked files in the active git repository.",
+      "whenToUseAr": "لإلقاء نظرة خاطفة على التعديلات الجارية قبل حفظها أو مزامنتها.",
+      "whenToUseEn": "To quickly inspect git changes before committing or pushing.",
+      "exampleAr": "RepoPath: E:\\البرامج\\rtee",
+      "exampleEn": "RepoPath: E:\\Projects\\MyAwesomeApp"
+    },
+    "parameters": [
+      {
+        "id": "RepoPath",
+        "label": "Repository Directory",
+        "type": "DirectoryPath",
+        "isRequired": true
+      }
+    ]
+  },
+  {
+    "id": "git.quick.commit",
+    "title": "Git Quick Commit & Push",
+    "titleAr": "حفظ ورفع التعديلات إلى Git",
+    "description": "Stage all changes, commit with specified message, and push to the upstream branch.",
+    "descriptionAr": "إضافة التعديلات وحفظها ونقلها إلى المستودع البعيد بضغطة زر واحدة.",
+    "category": "DotNet",
+    "executionType": "ExternalProcess",
+    "executable": "git",
+    "arguments": "commit -am \"${CommitMessage}\"",
+    "workingDirectory": "${RepoPath}",
+    "iconKey": "UploadCloud",
+    "guide": {
+      "whatItDoesAr": "يضيف التعديلات ويكتب رسالة الحفظ (Commit) بضغطة زر واحدة دون فتح موجه أوامر خارجي.",
+      "whatItDoesEn": "Stages all tracked modifications and commits them with the given message directly inside the hub.",
+      "whenToUseAr": "لحفظ تقدم العمل السريع أثناء التطوير اليومي.",
+      "whenToUseEn": "For rapid checkpointing and version commits during daily coding routines.",
+      "exampleAr": "RepoPath: E:\\MyRepo | CommitMessage: Fixed sound bugs",
+      "exampleEn": "RepoPath: E:\\MyRepo | CommitMessage: Fixed sound bugs"
+    },
+    "parameters": [
+      {
+        "id": "RepoPath",
+        "label": "Repository Directory",
+        "type": "DirectoryPath",
+        "isRequired": true
+      },
+      {
+        "id": "CommitMessage",
+        "label": "Commit Message",
+        "type": "Text",
+        "defaultValue": "Auto update",
+        "isRequired": true
+      }
+    ]
+  },
+  {
+    "id": "xml.localization.checker",
+    "title": "XML Localization / String Keys Checker",
+    "titleAr": "فاحص مفاتيح ونصوص ملفات التعريب",
+    "description": "Validates XML language translation files against a base language file to detect missing or mismatched keys.",
+    "descriptionAr": "مقارنة ملفات التعريب والترجمة لاكتشاف العبارات المفقودة أو الفارغة.",
+    "category": "DotNet",
+    "executionType": "InternalTool",
+    "internalToolHandlerId": "xml.localization.checker",
+    "iconKey": "Globe",
+    "guide": {
+      "whatItDoesAr": "يقارن ملف لغة رئيسي (مثل الإنجليزية) بملف لغة الهدف (مثل العربية)، ويكتشف أي مفاتيح ترجمة منسية أو نصوص فارغة تلقائياً.",
+      "whatItDoesEn": "Compares target localization XML against base language XML to pinpoint missing keys, empty values, or identical untranslated strings.",
+      "whenToUseAr": "عند تعريب الألعاب أو التطبيقات للتأكد من عدم وجود أي عبارة بدون ترجمة تسبب كراش أو تظهر ناقصة في الواجهة.",
+      "whenToUseEn": "When translating games/apps to audit language completeness and avoid missing text bugs in production.",
+      "exampleAr": "BaseFile: D:\\Loc\\strings_en.xml | TargetFile: D:\\Loc\\strings_ar.xml",
+      "exampleEn": "BaseFile: D:\\Loc\\strings_en.xml | TargetFile: D:\\Loc\\strings_ar.xml"
+    },
+    "parameters": [
+      {
+        "id": "BaseFile",
+        "label": "Base XML File (e.g. en.xml)",
+        "type": "FilePath",
+        "filter": "XML Files (*.xml)|*.xml|All Files (*.*)|*.*",
+        "isRequired": true
+      },
+      {
+        "id": "TargetFile",
+        "label": "Target XML File (e.g. ar.xml)",
+        "type": "FilePath",
+        "filter": "XML Files (*.xml)|*.xml|All Files (*.*)|*.*",
+        "isRequired": true
+      }
+    ]
+  }
+]

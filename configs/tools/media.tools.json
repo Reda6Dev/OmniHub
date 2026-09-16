@@ -1,0 +1,120 @@
+[
+  {
+    "id": "media.ico.generator",
+    "title": "Multi-Size Windows ICO Generator",
+    "titleAr": "منشئ أيقونات الويندوز متعددة المقاسات",
+    "description": "Converts any PNG/JPG image into a high-quality Windows .ico package containing 16, 32, 48, 64, 128, and 256px layers.",
+    "descriptionAr": "تحويل أي صورة PNG/JPG إلى حزمة أيقونات ويندوز رسمية متعددة المقاسات (16 إلى 256 بكسل).",
+    "category": "Media",
+    "executionType": "InternalTool",
+    "internalToolHandlerId": "media.ico.generator",
+    "iconKey": "Image",
+    "guide": {
+      "whatItDoesAr": "يحول أي صورة PNG أو JPG إلى حزمة أيقونة ويندوز رسمية ومطابقة للمواصفات، تضم 6 أحجام مختلفة (16، 32، 48، 64، 128، 256 بكسل) بكود C# نقي محلياً.",
+      "whatItDoesEn": "Takes a PNG/JPG image and generates a valid Windows multi-resolution .ico package with 6 standard layers (16 to 256px) using pure local C# binary synthesis.",
+      "whenToUseAr": "عند تجهيز أيقونة تطبيقك أو لعبتك قبل النشر لتبدو فائقة الوضوح في كل أماكن ويندوز (سطح المكتب، شريط المهام، قائمة ابدأ، مستكشف الملفات).",
+      "whenToUseEn": "When preparing polished executable icons for your game or software that render crisply at all Windows DPI scaling levels.",
+      "exampleAr": "InputImage: D:\\Art\\logo.png | OutputIco: D:\\Art\\app.ico",
+      "exampleEn": "InputImage: D:\\Art\\logo.png | OutputIco: D:\\Art\\app.ico"
+    },
+    "parameters": [
+      {
+        "id": "InputImage",
+        "label": "Source Image (PNG / JPG / BMP)",
+        "type": "FilePath",
+        "filter": "Image Files (*.png;*.jpg;*.jpeg;*.bmp)|*.png;*.jpg;*.jpeg;*.bmp|All Files (*.*)|*.*",
+        "isRequired": true
+      },
+      {
+        "id": "OutputIco",
+        "label": "Output ICO File",
+        "type": "FilePath",
+        "filter": "Icon Files (*.ico)|*.ico|All Files (*.*)|*.*",
+        "defaultValue": "${InputImage}.ico",
+        "isRequired": true
+      }
+    ]
+  },
+  {
+    "id": "media.audio.to_ogg",
+    "title": "Audio to Game OGG Vorbis Converter",
+    "titleAr": "محول الصوتيات لصيغة OGG للألعاب",
+    "description": "Converts audio files (WAV, MP3, FLAC) to optimized OGG Vorbis using FFmpeg for Godot/Game engines.",
+    "descriptionAr": "تحويل الملفات الصوتية (WAV, MP3, FLAC) إلى صيغة OGG Vorbis المحسنة لمحركات الألعاب.",
+    "category": "Media",
+    "executionType": "ExternalProcess",
+    "executable": "${FFmpegPath}",
+    "arguments": "-y -i \"${InputAudio}\" -c:a libvorbis -q:a ${Quality} \"${OutputOgg}\"",
+    "iconKey": "Music",
+    "guide": {
+      "whatItDoesAr": "يستدعي أداة FFmpeg لضغط وتحويل الملفات الصوتية مثل WAV الضخمة إلى صيغة OGG Vorbis الموصى بها في محركات الألعاب كـ Godot و Unity.",
+      "whatItDoesEn": "Calls FFmpeg to convert heavy audio files (WAV, FLAC, MP3) into lightweight, loop-friendly OGG Vorbis for game engines.",
+      "whenToUseAr": "عند تجهيز المؤثرات الصوتية والموسيقى التصويرية لتقليل حجم اللعبة وتسريع زمن التحميل في الذاكرة.",
+      "whenToUseEn": "When optimizing game sound effects and BGM soundtracks to reduce packaged install size and optimize memory streaming.",
+      "exampleAr": "InputAudio: D:\\Audio\\track.wav | Quality: 6 | OutputOgg: D:\\Audio\\track.ogg",
+      "exampleEn": "InputAudio: D:\\Audio\\track.wav | Quality: 6 | OutputOgg: D:\\Audio\\track.ogg"
+    },
+    "parameters": [
+      {
+        "id": "InputAudio",
+        "label": "Input Audio File",
+        "type": "FilePath",
+        "filter": "Audio Files (*.wav;*.mp3;*.flac;*.aac;*.m4a)|*.wav;*.mp3;*.flac;*.aac;*.m4a|All Files (*.*)|*.*",
+        "isRequired": true
+      },
+      {
+        "id": "Quality",
+        "label": "Vorbis Quality (0-10)",
+        "type": "Dropdown",
+        "defaultValue": "6",
+        "options": ["4", "5", "6", "7", "8", "9"],
+        "isRequired": true
+      },
+      {
+        "id": "OutputOgg",
+        "label": "Output OGG File",
+        "type": "FilePath",
+        "filter": "OGG Files (*.ogg)|*.ogg|All Files (*.*)|*.*",
+        "defaultValue": "${InputAudio}.ogg",
+        "isRequired": true
+      }
+    ]
+  },
+  {
+    "id": "media.video.compress",
+    "title": "Game Video Compressor (H.264 MP4)",
+    "titleAr": "ضاغط فيديوهات الألعاب (H.264 MP4)",
+    "description": "Compresses heavy videos using H.264 / AAC for lightweight in-game cutscenes and trailer previews.",
+    "descriptionAr": "ضغط الفيديوهات الكبيرة باستخدام ترميز H.264 / AAC لمشاهد الألعاب والعروض الترويجية.",
+    "category": "Media",
+    "executionType": "ExternalProcess",
+    "executable": "${FFmpegPath}",
+    "arguments": "-y -i \"${InputVideo}\" -vcodec libx264 -crf 23 -preset medium -acodec aac -b:a 128k \"${OutputVideo}\"",
+    "iconKey": "Video",
+    "guide": {
+      "whatItDoesAr": "يضغط الفيديوهات الكبيرة باستخدام ترميز H.264 عالي الكفاءة ليقلل حجم الملف بنسبة تصل إلى 70% مع الحفاظ على وضوح الصورة.",
+      "whatItDoesEn": "Compresses high-bitrate video captures using H.264 with optimal CRF balance to drastically shrink file sizes for trailers and cutscenes.",
+      "whenToUseAr": "لتجهيز عروض اللعبة، الفيديوهات الترويجية، أو المشاهد السينمائية داخل اللعبة لتفادي زيادة حجم اللعبة بالمئات من الميجابايت.",
+      "whenToUseEn": "For preparing lightweight in-game cinematic cutscenes, devlog teasers, or social media game trailer videos.",
+      "exampleAr": "InputVideo: D:\\Recordings\\trailer_raw.mov | OutputVideo: D:\\Recordings\\trailer_compressed.mp4",
+      "exampleEn": "InputVideo: D:\\Recordings\\trailer_raw.mov | OutputVideo: D:\\Recordings\\trailer_compressed.mp4"
+    },
+    "parameters": [
+      {
+        "id": "InputVideo",
+        "label": "Input Video File",
+        "type": "FilePath",
+        "filter": "Video Files (*.mp4;*.mov;*.avi;*.mkv)|*.mp4;*.mov;*.avi;*.mkv|All Files (*.*)|*.*",
+        "isRequired": true
+      },
+      {
+        "id": "OutputVideo",
+        "label": "Compressed Output Video",
+        "type": "FilePath",
+        "filter": "MP4 Files (*.mp4)|*.mp4|All Files (*.*)|*.*",
+        "defaultValue": "${InputVideo}_compressed.mp4",
+        "isRequired": true
+      }
+    ]
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "tools": [
+    {
+      "id": "sample.echo",
+      "name": "Echo Test Tool",
+      "nameAr": "أداة اختبار Echo",
+      "category": "Custom",
+      "description": "A safe sample definition for testing the Online Tools installer.",
+      "descriptionAr": "تعريف تجريبي آمن لاختبار تثبيت الأدوات عبر الإنترنت.",
+      "definitionUrl": "https://raw.githubusercontent.com/Reda6Dev/OmniHub/main/catalog/sample.echo.tools.json",
+      "version": "1.0.0",
+      "publisher": "OmniHub",
+      "icon": "🧪"
+    }
+  ]
+}
