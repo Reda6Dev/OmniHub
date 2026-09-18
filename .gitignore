@@ -1,11 +1,78 @@
-## مخلفات البناء المؤقتة
+########################################
+# ملف استثناء شامل — يستخدم في كل مشاريعك (.NET / WPF)
+# ضعه بجذر أي مشروع جديد قبل أول رفع على GitHub
+########################################
+
+# ===== مخرجات البناء =====
 bin/
 obj/
 publish/
+out/
+*.pdb
+*.dll
+*.exe
+!app.ico
+!**/*.ico
+!**/*.png
+
+# ===== ملفات IDE والمحرر =====
 .vs/
+.idea/
+.vscode/
 *.user
 *.suo
+*.userosscache
+*.sln.docstates
 
-## سجلات التشغيل المؤقتة
-logs/
+# ===== ملفات نظام ويندوز =====
+desktop.ini
+Thumbs.db
+ehthumbs.db
+$RECYCLE.BIN/
+
+# ===== الأسرار، المفاتيح، والإعدادات الشخصية (أهم قسم) =====
+# أي ملف فيه كلمة secret أو credential أو key أو token
+*secret*
+*credential*
+*.key
+*.pfx
+*.pem
+*.token
+.env
+.env.*
+*.env
+
+# ملفات إعدادات محلية قد تحتوي مفاتيح API أو مسارات جهازك الشخصي
+appsettings.json
+appsettings.*.json
+!appsettings.example.json
+!appsettings.sample.json
+settings.json
+secrets.json
+local.settings.json
+launchSettings.json
+
+# ===== سجلات، تقارير أعطال، وأدلة تشخيص =====
 *.log
+logs/
+*.dmp
+*.mdmp
+rgl_log*.txt
+BLSE.log
+LauncherData*.xml
+reports/
+CrashHistory/
+
+# ===== أرشيفات (تحسباً لرفعها بالغلط) =====
+*.zip
+*.rar
+*.7z
+
+# ===== نسخ احتياطية وملفات مؤقتة =====
+*.bak
+*.tmp
+*~
+# استبعاد ملفات حالة المشروع والملخصات المحلية
+PROJECT_STATUS.md
+*_STATUS.md
+*_SUMMARY.md
